@@ -1,3 +1,6 @@
 .idea/.name
 social.iml
 .idea/
+target/
+solr/blog/data/index/segments.gen
+solr/blog/data/index/segments_1
