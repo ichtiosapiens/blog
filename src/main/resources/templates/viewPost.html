@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css"/>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <title>Hello World!</title>
+</head>
+<body>
+<h1 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h1>
+
+<form th:action="@{/logout}" method="post">
+    <input type="submit" value="Sign Out"/>
+</form>
+<hr/>
+<div><label th:text="${blogEntry.title}"/></div>
+<div th:text="${blogEntry.text}">blog text</div>
+<hr/>
+<label>Add comment:</label>
+
+<form th:action="@{/addComment}" method="post">
+    <input type="hidden" name="blogEntryId" th:value="${blogEntry.entryId}"/>
+    <div><textarea name="commentContent" rows="4" cols="50"/></div>
+    <div><input type="submit" value="Add comment"/></div>
+</form>
+
+<hr/>
+<th:block th:each="comment:${blogEntry.comments}">
+    <div th:text="${comment.userDisplayName}">title</div>
+    <div th:text="${comment.commentContent}">post content</div>
+    <hr/>
+</th:block>
+
+
+</body>
+
+</html>
