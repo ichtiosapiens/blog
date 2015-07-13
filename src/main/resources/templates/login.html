@@ -1,20 +1,35 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
-    <head>
-        <title>Spring Security Example </title>
-    </head>
-    <body>
-        <div th:if="${param.error}">
-            Invalid username and password.
+        >
+<head th:replace="template :: headHTML" th:with="siteTitle='Login'"/>
+<body style="background-color: #eeeeee;">
+<div class="container">
+    <form th:action="@{/login}" method="post" style="max-width: 500px; margin: 0 auto;">
+        <h2 class="form-signin-heading" style="text-align: center;">
+            <div th:if="${param.error}" style="color: #FF0000;">
+                Invalid username and password.
+            </div>
+            <div th:if="${param.logout}" style="color: #FF0000;">
+                You have been logged out.
+            </div>
+            <div>
+                Please sign in
+            </div>
+        </h2>
+        <div style="max-width: 330px; margin: 0 auto;">
+            <label for="inputUsername" class="sr-only">User name</label>
+            <input type="text" name="username" id="inputUsername" class="form-control" placeholder="Username"
+                   required="true" autofocus="true" style="margin-bottom: -1px; border-bottom-right-radius: 0; border-bottom-left-radius: 0;"/>
+            <label for="inputPassword" class="sr-only">Password</label>
+            <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password"
+                   required="true" style="margin-bottom: 10px; border-top-right-radius: 0; border-top-left-radius: 0;"/>
+            <button class="btn btn-lg btn-primary btn-block" type="submit">
+                <span class="glyphicon glyphicon-log-in" aria-hidden="true" style="margin-right: 5px;"/>Sign in
+            </button>
         </div>
-        <div th:if="${param.logout}">
-            You have been logged out.
-        </div>
-        <form th:action="@{/login}" method="post">
-            <div><label> User Name : <input type="text" name="username"/> </label></div>
-            <div><label> Password: <input type="password" name="password"/> </label></div>
-            <div><input type="submit" value="Sign In"/></div>
-        </form>
-    </body>
+    </form>
+</div>
+
+<div th:replace="template :: footer"/>
+</body>
 </html>

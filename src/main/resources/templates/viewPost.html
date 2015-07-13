@@ -1,39 +1,73 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
-<head>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css"/>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-    <title>Hello World!</title>
-</head>
-<body>
-<h1 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h1>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="template :: headHTML" th:with="siteTitle='Add post'"/>
+<body style="background-color: #eeeeee;">
+<div th:replace="template :: headBody"/>
 
-<form th:action="@{/logout}" method="post">
-    <input type="submit" value="Sign Out"/>
-</form>
-<hr/>
-<div><label th:text="${blogEntry.title}"/></div>
-<div th:text="${blogEntry.text}">blog text</div>
-<hr/>
-<label>Add comment:</label>
+<div style="margin: 0 auto; width: 900px;">
+    <div class="panel panel-primary">
+        <div class="panel-heading" style="text-align: center;" th:text="${blogEntry.title}"/>
+        <div class="panel-body" th:text="${blogEntry.text}"/>
+    </div>
+    <ul class="nav nav-tabs" id="postTabs">
+        <li role="presentation" class="active">
+            <a href="#comments" data-toggle="comments" role="tab" aria-controls="comments">
+                Comments
+            </a>
+        </li>
+    </ul>
+    <div class="tab-content"
+         style="border-left: 1px solid #ddd; border-right: 1px solid #ddd; border-bottom: 1px solid #ddd;">
+        <div class="tab-pane active in" id="comments" role="tabpanel" style="padding: 15px;">
 
-<form th:action="@{/addComment}" method="post">
-    <input type="hidden" name="blogEntryId" th:value="${blogEntry.entryId}"/>
-    <div><textarea name="commentContent" rows="4" cols="50"/></div>
-    <div><input type="submit" value="Add comment"/></div>
-</form>
+            <div class="list-group">
+                <div th:each="comment, itemStat :${blogEntry.comments}"
+                     th:class="${itemStat.count == 1 or itemStat.index % 2 == 0 ? 'list-group-item list-group-item-info' : 'list-group-item list-group-item-warning'}"
+                     style="color: #31708f;">
+                    <h4 class="list-group-item-heading" th:text="${comment.userDisplayName}"/>
 
-<hr/>
-<th:block th:each="comment:${blogEntry.comments}">
-    <div th:text="${comment.userDisplayName}">title</div>
-    <div th:text="${comment.commentContent}">post content</div>
-    <hr/>
-</th:block>
+                    <p class="list-group-item-text" th:text="${comment.commentContent}"/>
+                </div>
+            </div>
+        </div>
+    </div>
 
+    <form th:action="@{/addComment}" method="post" onsubmit="return getWYSIWYG();">
+        <input type="hidden" name="blogEntryId" th:value="${blogEntry.entryId}"/>
 
+        <div>
+            <h4>
+                <label for="wysiwygEditor" class="label label-default">Add a comment</label>
+            </h4>
+
+            <div class="wysiwygEditor form-control" id="wysiwygEditor" style="border: 1px solid black;"/>
+        </div>
+        <div>
+            <input type="submit" class="btn btn-default btn-block" style="margin: 20px 0;" value="Add comment"/>
+        </div>
+        <input type="hidden" name="commentContent"/>
+    </form>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#postTabs a').click(function (e) {
+            e.preventDefault()
+            $(this).tab('show')
+        })
+
+        $('.wysiwygEditor').summernote({
+            height: 200,
+            codemirror: {
+                theme: 'monokai'
+            }
+        });
+    });
+
+    function getWYSIWYG() {
+        $("[name='commentContent']").val($('.wysiwygEditor').code());
+        return true;
+    }
+</script>
+<div th:replace="template :: footer"/>
 </body>
-
 </html>

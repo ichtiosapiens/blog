@@ -25,6 +25,7 @@ public class HomeController {
         String queryPhrase = (String)request.getParameter(QUERY_PHRASE);
         Page<BlogEntry> page = blogEntryService.guery(queryPhrase, 0);
         model.addAttribute(BLOG_PAGE, page);
+        model.addAttribute(QUERY_PHRASE, queryPhrase);
         return "home";
     }
 

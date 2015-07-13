@@ -1,34 +1,23 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
-    <head>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"/>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css"/>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-        <title>Company social portal</title>
-    </head>
-    <body>
-        <h1>Welcome!</h1>
-        
-        <p>Click <a th:href="@{/createPost}">here</a> to add new post.</p>
-
-        <form th:action="@{/}" method="get">
-            <div><label> Search:</label> <input type="text" th:text="${queryPhrase}" name="queryPhrase"/> </div>
-            <div><input type="submit" value="Search"/></div>
-        </form>
-
-        <th:block th:each="entry:${blogPage.content}">
-            <div th:text="${entry.title}">title</div>
-            <div th:text="${entry.text}">post content</div>
-            <div th:text="${entry.entryId}">post content</div>
-                <p>View comments <a th:href="@{/viewPost}">here</a> to view post.</p>
-            <hr/>
+        >
+<head th:replace="template :: headHTML" th:with="siteTitle='Add post'"/>
+<body style="background-color: #eeeeee;">
+<div th:replace="template :: headBody"/>
+<div style="width: 100%;">
+    <div style="margin: 0 auto; width: 400px;">
+        <th:block th:each="entry, iterStat : ${blogPage.content}">
+            <div th:class="${iterStat.index % 2 == 0 ? 'panel panel-info' : 'panel panel-success'}">
+                <div class="panel-heading" style="text-align: center;" th:text="|${entry.title} (${entry.entryId})|"/>
+                <div class="panel-body" th:text="${entry.text}"/>
+                <div class="panel-footer" style="text-align: right;">
+                    <a th:href="|@{/viewPost}/${entry.entryId}|" style="text-decoration: none;">View this post</a>
+                </div>
+            </div>
         </th:block>
-
-        <form th:action="@{/logout}" method="post">
-            <input type="submit" value="Sign Out"/>
-        </form>
-    </body>
+    </div>
+</div>
+<div th:replace="template :: footer"/>
+</body>
 
 </html>

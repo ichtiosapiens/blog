@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="headHTML">
+
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="http://code.jquery.com/jquery-1.10.2.js"/>
+    <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"/>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css"/>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet"/>
+    <script src="http://summernote.org/bower_components/summernote/dist/summernote.js"/>
+    <link href="http://summernote.org/bower_components/summernote/dist/summernote.css" rel="stylesheet"/>
+
+    <title th:text="${siteTitle}"/>
+</head>
+<body>
+    <div th:fragment="headBody" style="background-color: #d6d6d6; margin-bottom: 5px; line-height: 33px;">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" th:href="@{/}" style="line-height: 33px;">Posts</a>
+        </div>
+        <div class="navbar-text" th:inline="text">
+            <a th:href="@{/createPost}" style="text-decoration: none;">
+                <span class="glyphicon glyphicon-plus" aria-hidden="true" style="margin-right: 5px; text-decoration: none;"/>Add new post
+            </a>
+        </div>
+        <div>
+            <form th:action="@{/}" method="get" class="navbar-form navbar-left" style="margin: 15px 0;">
+                <input type="text" name="queryPhrase" id="inputQueryPhrase" class="form-control navbar-left" th:value="${queryPhrase}" style="margin-right: -1px; border-bottom-right-radius: 0; border-top-right-radius: 0;"/>
+                <button class="btn btn-primary btn-block" type="submit" style="border-bottom-left-radius: 0; border-top-left-radius: 0; width: 90px;">
+                    <span class="glyphicon glyphicon-search" aria-hidden="true" style="margin-right: 5px;"/> Search
+                </button>
+            </form>
+        </div>
+
+        <div class="navbar-text navbar-right" th:inline="text" style="margin-right: 15px;">
+            <form th:action="@{/logout}" method="post">
+                <button class="btn btn-primary btn-block" type="submit">
+                    <span class="glyphicon glyphicon-log-out" aria-hidden="true" style="margin-right: 5px;"/>Sign Out
+                </button>
+            </form>
+        </div>
+        <div class="navbar-text navbar-right" th:inline="text">
+            Logged as <b>[[${#httpServletRequest.remoteUser}]]!</b>
+        </div>
+        <div class="clearfix"/>
+    </div>
+    <div th:fragment="footer" style="background-color: #d6d6d6; margin-top: 5px; line-height: 33px;">
+        <div class="navbar-text" style="text-align: center; width: 100%; font-weight: bold; margin: 15px 0;">
+            (C)opyright 2015 by <a href="mailto:bartosz.rybusinski@gmail.com" style="text-decoration: none;">Bartosz Rybusiński</a>
+        </div>
+        <div class="clearfix"/>
+    </div>
+</body>
+</html>
