@@ -1,4 +1,4 @@
-package com.socialportal.domain.blog.repositories;
+package com.socialportal.domain.blog.infrastructure.seach;
 
 import com.socialportal.domain.blog.model.BlogEntry;
 import org.springframework.stereotype.Component;

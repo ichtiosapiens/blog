@@ -1,4 +1,4 @@
-package com.socialportal.domain.blog.infrastructure;
+package com.socialportal.domain.blog.infrastructure.seach;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

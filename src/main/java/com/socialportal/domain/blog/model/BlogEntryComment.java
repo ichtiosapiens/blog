@@ -7,6 +7,7 @@ public class BlogEntryComment {
     private String userDisplayName;
     private String commentContent;
 
+
     public String getCommentingUserId() {
         return commentingUserId;
     }

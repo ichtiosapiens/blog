@@ -1,9 +1,10 @@
-package com.socialportal.domain.blog.infrastructure;
+package com.socialportal.domain.blog.infrastructure.controllers;
 
 import com.google.common.collect.Sets;
 import com.socialportal.application.security.domain.Credentials;
 import com.socialportal.application.security.domain.CredentialsRepository;
 import com.socialportal.domain.blog.model.BlogEntry;
+import com.socialportal.domain.blog.model.BlogEntryComment;
 import com.socialportal.domain.blog.services.BlogEntryService;
 import com.socialportal.domain.company.model.Company;
 import com.socialportal.domain.company.model.CompanyRepository;
@@ -13,43 +14,42 @@ import com.socialportal.domain.user.model.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 
-@Controller
-public class BlogController {
-
-    public static final String QUERY_PHRASE = "queryPhrase";
+@RestController
+public class BlogRestController {
 
     @Autowired
     private BlogEntryService blogEntryService;
 
-//    @PreAuthorize("hasRole('USER')")
-    @RequestMapping(value = "/listEntries", method = RequestMethod.GET)
+    @PreAuthorize("hasRole('USER')")
+    @RequestMapping(value = "/rest/listEntries", method = RequestMethod.GET,
+            consumes =    "application/json", produces = "application/json")
     public @ResponseBody
-    Page<BlogEntry> getAllEntries(HttpServletRequest request) {
-        String queryPhrase = (String)request.getAttribute(QUERY_PHRASE);
+    Page<BlogEntry> getAllEntries(@RequestBody String queryPhrase) {
         return blogEntryService.guery(queryPhrase, 0);
     }
 
-    @RequestMapping(value = "/addPost", method = RequestMethod.POST)
-    public String addPost(final BlogEntry blogEntry) {
-        blogEntryService.save(blogEntry);
-        return "redirect:/";
+    @PreAuthorize("hasRole('USER')")
+    @RequestMapping(value = "/rest/addPost", method = RequestMethod.POST,
+            consumes =    "application/json", produces = "application/json")
+    public @ResponseBody BlogEntry addPost(final BlogEntry blogEntry) {
+        return blogEntryService.save(blogEntry);
     }
 
-    @RequestMapping(value = "/addComment", method = RequestMethod.POST)
-    public String addComment(String blogEntryId, String commentContent) {
-        blogEntryService.addComment(blogEntryId, commentContent);
-        return "redirect:/viewPost/"+blogEntryId;
+    @PreAuthorize("hasRole('USER')")
+    @RequestMapping(value = "/rest/addComment", method = RequestMethod.POST,
+            consumes =    "application/json", produces = "application/json")
+    public @ResponseBody
+    BlogEntryComment addComment(String blogEntryId, String commentContent) {
+        return blogEntryService.addComment(blogEntryId, commentContent);
     }
 
+
+    //TODO: to be removed
     @Autowired
     private CredentialsRepository credentialsRepository;
 
@@ -59,7 +59,7 @@ public class BlogController {
     private CompanyRepository companyRepository;
 
 
-    //TODO: to be removed
+
     @RequestMapping(value = "/loadData", method = RequestMethod.GET)
     public @ResponseBody
     String loadData(HttpServletRequest request) {

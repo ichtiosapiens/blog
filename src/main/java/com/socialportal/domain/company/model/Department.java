@@ -1,8 +1,5 @@
 package com.socialportal.domain.company.model;
 
-import lombok.Getter;
-import lombok.Setter;
-
 import java.util.Set;
 
 

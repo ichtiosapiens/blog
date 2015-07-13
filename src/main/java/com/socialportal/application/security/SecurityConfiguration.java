@@ -1,5 +1,6 @@
 package com.socialportal.application.security;
 
+import com.socialportal.application.security.infrastructure.services.CustomAuthenticationDispatcher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -41,7 +42,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.logout().permitAll().logoutUrl("/signout").deleteCookies("JSESSIONID");
     }
 
-
+    /**
+     * Delegates authentication responsibility to CustomAuthenticationDispatcher
+     * @param auth
+     * @throws Exception
+     */
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {

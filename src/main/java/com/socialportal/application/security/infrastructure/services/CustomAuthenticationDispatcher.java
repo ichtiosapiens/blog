@@ -1,4 +1,4 @@
-package com.socialportal.application.security;
+package com.socialportal.application.security.infrastructure.services;
 
 import com.socialportal.domain.user.model.User;
 import com.socialportal.domain.user.model.UserRepository;
@@ -10,6 +10,10 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+/**
+ * Custom authentication dispatcher is used to authenticate user basing on
+ * authentication method used configured for the current company.
+ */
 @Service
 public class CustomAuthenticationDispatcher extends AbstractUserDetailsAuthenticationProvider {
 
@@ -17,12 +21,7 @@ public class CustomAuthenticationDispatcher extends AbstractUserDetailsAuthentic
     private UserRepository userRepository;
 
     @Autowired
-    private LocalAuthenticationProvider localAuthenticationProvider;
-
-//    @Override
-//    public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-//        return localAuthenticationProvider.authenticate(authentication);
-//    }
+    private LocalAuthenticationPolicy localAuthenticationPolicy;
 
     @Override
     protected void additionalAuthenticationChecks(UserDetails userDetails, UsernamePasswordAuthenticationToken authentication) throws AuthenticationException {
@@ -30,15 +29,15 @@ public class CustomAuthenticationDispatcher extends AbstractUserDetailsAuthentic
 
     @Override
     protected UserDetails retrieveUser(String username, UsernamePasswordAuthenticationToken authentication) throws AuthenticationException {
-        UserDetails loadedUser;
-
-        authentication = (UsernamePasswordAuthenticationToken) localAuthenticationProvider.authenticate(authentication);
-
+        //authenticate
+        authentication = (UsernamePasswordAuthenticationToken) localAuthenticationPolicy.authenticate(authentication);
         if (authentication == null) {
             throw new InternalAuthenticationServiceException("Authentication error");
         }
 
+        UserDetails loadedUser;
         try {
+            //query user from mongo db
             User user = userRepository.findByUsername(username);
             user.setPassword((String) authentication.getCredentials());
             loadedUser = user;

@@ -15,7 +15,28 @@ public class BlogEntry {
 
     private String text;
 
+    private String userDisplayName;
+
+    private String userDisplayId;
+
+
     private List<BlogEntryComment> comments;
+
+    public String getUserDisplayName() {
+        return userDisplayName;
+    }
+
+    public void setUserDisplayName(String userDisplayName) {
+        this.userDisplayName = userDisplayName;
+    }
+
+    public String getUserDisplayId() {
+        return userDisplayId;
+    }
+
+    public void setUserDisplayId(String userDisplayId) {
+        this.userDisplayId = userDisplayId;
+    }
 
     public String getEntryId() {
         return entryId;

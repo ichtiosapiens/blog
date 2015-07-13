@@ -3,6 +3,9 @@ package com.socialportal.application.security.domain;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+/**
+ * Credentials class used for internal user authentication.
+ */
 @Document(collection = "credentials")
 public class Credentials {
 

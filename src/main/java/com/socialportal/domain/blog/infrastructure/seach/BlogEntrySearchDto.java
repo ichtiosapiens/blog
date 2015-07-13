@@ -1,4 +1,4 @@
-package com.socialportal.domain.blog.repositories;
+package com.socialportal.domain.blog.infrastructure.seach;
 
 import org.apache.solr.client.solrj.beans.Field;
 import org.springframework.data.annotation.Id;

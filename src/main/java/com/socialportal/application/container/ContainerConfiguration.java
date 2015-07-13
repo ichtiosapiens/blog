@@ -9,6 +9,11 @@ import org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletCon
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+
+/**
+ * This is Tomcat configuration class. All details related to:
+ * connectors, sessions will kept in this class or in related classes.
+ */
 @Configuration
 public class ContainerConfiguration {
     @Bean

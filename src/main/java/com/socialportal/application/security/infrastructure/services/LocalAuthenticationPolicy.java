@@ -1,4 +1,4 @@
-package com.socialportal.application.security;
+package com.socialportal.application.security.infrastructure.services;
 
 import com.socialportal.application.security.domain.Credentials;
 import com.socialportal.application.security.domain.CredentialsRepository;
@@ -8,8 +8,12 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Service;
 
+
+/**
+ * A policy used for internal mongo db authentication.
+ */
 @Service
-public class LocalAuthenticationProvider implements AuthenticationProvider{
+public class LocalAuthenticationPolicy implements AuthenticationProvider{
 
     @Autowired
     private CredentialsRepository credentialsRepository;
