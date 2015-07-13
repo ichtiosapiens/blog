@@ -58,8 +58,6 @@ public class BlogRestController {
     @Autowired
     private CompanyRepository companyRepository;
 
-
-
     @RequestMapping(value = "/loadData", method = RequestMethod.GET)
     public @ResponseBody
     String loadData(HttpServletRequest request) {
